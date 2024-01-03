@@ -1,0 +1,8 @@
+/* public/styles/styles.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Your custom styles here */
+
+  @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@500&family=Inter:wght@400;800&display=swap');

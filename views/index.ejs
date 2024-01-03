@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@500&family=Inter:wght@400;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="bg-[#3B3D3F] text-white lg:px-12 sm:px-4">
+        <%- include('partials/header'); -%>
+    </header>
+    <main class="lg:flex bg-[#010914] lg:flex-row  text-white w-full py-[60px]  lg:px-12 sm:p-4 sm:flex-col-reverse">
+        <div class="hero-content lg:w-1/2 sm:w-full sm:items-center sm:px-[10px]">
+            <h1 class="text-5xl mt-12 font-inter leading-[3rem] font-bold mb-10">Explore the joy
+                <br>of quizzes with ibQuiz!
+            </h1>
+            <h3 class="text-2xl mt-[10px]">Answer questions, overcome challenges, and play with friends.
+                Be your own hero in the world of puzzles – start playing now and enjoy
+                the adventure!"</h3>
+            <a href="/registration-form"><button
+                    class="bg-[#026FDF] px-[20px] text-white my-12 text-2xl rounded-[10px] px-12 py-3"> Register
+                    Now </button></a>
+        </div>
+        <div class="hero-image lg:w-1/2 sm:w-full">
+            <img src="images/pix1.png" alt="" class="object-cover">
+        </div>
+
+    </main>
+    <footer class="bg-[#3B3D3F] px-12 ">
+        <%- include('partials/footer'); -%>
+    </footer>
+</body>
+
+</html>
