@@ -28,18 +28,13 @@ const userSchema = new mongoose.Schema({
       role: { type: String, enum: ['teacher', 'student'], default: 'student' },
       is_active: { type: Boolean, default: true },
 
-      score:{
-        type:Array,
-        default:[],
-      },
+      Results:[{
+        quizName:{type: String},
+        score:{type: Number, default:0}
+       
+      }],
 
-      subjects:{
-        type:Array,
-        default:[],
-      }
-  
-    
-    
+
 }, {timestamps:true});
 
 const UserModel = mongoose.model('User', userSchema);

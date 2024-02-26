@@ -6,13 +6,23 @@ const jwt = require('jsonwebtoken');
 
 
 const getTeacherDashboard = async (req, res) =>{
-    if(!req.session || !req.session.user){
-        res.redirect('/login-form');
-        return
+    try {
+        const userToken = req.cookies.userToken;
+        let user;
+
+        if (userToken) {
+            const decodedToken = jwt.verify(userToken, `${secretKey}`);
+            const userId = decodedToken.userId;
+            console.log(userId)
+            user = await UserModel.findById(userId);
+        }
+
+        const quizzes = await QuizModel.find();
+        res.render('teacherDashboard', { quizzes, user });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
     }
-    
-        const user = req.session.user;
-        res.render('teacherDashboard', {user});
     };
 
 

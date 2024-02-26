@@ -26,7 +26,7 @@ router.get('/student-dashboard', getStudentDashboard);
 router.get('/take-quiz/:id',  getQuizQuestions);
 
 router.get('/single-quiz/:id', getSingleQuiz);
-router.post('/submit-quiz',  submitQuiz);
+router.post('/submit-quiz/:id',  submitQuiz);
 
 router.post('/logout', logout)
 

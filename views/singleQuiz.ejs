@@ -22,7 +22,8 @@
             <%= quizzes.title %>
         </h3>
 
-        <form action="/submit-quiz/" method="post" id="quizForm" class="ml-12 align-center flex-col justify-center">
+        <form action="/submit-quiz/<%= quizId %>" method="post" id="quizForm"
+            class="ml-12 align-center flex-col justify-center">
             <% quizzes.questions.forEach((question, questionIndex)=> { %>
                 <div class="question " id="question<%= questionIndex + 1 %>"
                     style="display: <%= questionIndex === 0 ? 'block' : 'none' %>;">
@@ -84,7 +85,7 @@
         }
 
         const baseUrl = 'http://localhost:4000';
-        const submitQuizEndpoint = '/submit-quiz';
+        const submitQuizEndpoint = '/submit-quiz/id';
 
         const token = localStorage.getItem('token');
         const quizResponses = {
