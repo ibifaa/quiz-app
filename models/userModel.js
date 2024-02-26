@@ -25,14 +25,23 @@ const userSchema = new mongoose.Schema({
         required: true,
       },
      
-      role: { type: String, enum: ['admin', 'user'], default: 'user' },
+      role: { type: String, enum: ['teacher', 'student'], default: 'student' },
       is_active: { type: Boolean, default: true },
-  
-      created_at: { type: Date, default: Date.now },
-      updated_at: { type: Date, default: Date.now },
-    
-});
 
-const UserModel = mongoose.model('user', userSchema);
+      score:{
+        type:Array,
+        default:[],
+      },
+
+      subjects:{
+        type:Array,
+        default:[],
+      }
+  
+    
+    
+}, {timestamps:true});
+
+const UserModel = mongoose.model('User', userSchema);
 
 module.exports = UserModel;

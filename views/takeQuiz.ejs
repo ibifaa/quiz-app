@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <header class="bg-[#EBEBEB] text-white lg:px-12 sm:px-4">
+    <%- include('partials/header'); -%>
+  </header>
+
+  <main class="p-4 flex-row">
+    <div>
+      <h2 class="text-4xl ">
+        <%= quizzes.title %>
+      </h2>
+    </div>
+
+    <div>
+
+      <form id="quizForm" method="post">
+        <% for (let i=0; i < quizzes.questions.length; i++) { %>
+          <p>
+            <%= quizzes.questions[i].questionText %>
+          </p>
+          <select name="<%= i %>" required>
+            <% for (let j=0; j < quiz.questions[i].options.length; j++) { %>
+              <option value="<%= j %>">Option <%= j + 1 %>
+              </option>
+              <% } %>
+          </select>
+          <br>
+          <% } %>
+            <br>
+            <input type="button" value="Submit Quiz" onclick="submitQuiz()">
+      </form>
+    </div>
+  </main>
+  <footer class="bg-[#EBEBEB]  px-12 ">
+    <%- include('partials/footer'); -%>
+  </footer>
+
+  <script>
+    const form = document.querySelector('form');
+    function submitForm() {
+      // Create an object to store the selected values
+      let selectedValues = {};
+
+      // Get all radio buttons in the form
+      const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+      // Iterate through the radio buttons
+      radioButtons.forEach(radioButton => {
+        selectedValues[radioButton.name] = radioButton.checked ? radioButton.value : (selectedValues[radioButton.name] || "");
+      });
+
+
+      // Prevent the form from actually submitting
+      return selectedValues;
+    };
+
+    form.addEventListener("submit", async () => {
+      let result = await submitForm();
+      console.log(result);
+      let res = await fetch("/submit-quiz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(result)
+      });
+      await res.json()
+        .then(data => {
+          window.location.href = data.redirect;
+          console.log(data)
+        })
+
+    })
+  </script>
+</body>
+
+</html>

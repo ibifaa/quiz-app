@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@500&family=Inter:wght@400;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="bg-[#EBEBEB]  text-white lg:px-12 sm:px-4">
+        <%- include('partials/header'); -%>
+    </header>
+    <div class="my-12 mx-12">
+
+        <h3 class="text-[#026FDF] text-4xl font-bold ml-12">
+            <%= quizzes.title %>
+        </h3>
+
+        <form action="/submit-quiz/" method="post" id="quizForm" class="ml-12 align-center flex-col justify-center">
+            <% quizzes.questions.forEach((question, questionIndex)=> { %>
+                <div class="question " id="question<%= questionIndex + 1 %>"
+                    style="display: <%= questionIndex === 0 ? 'block' : 'none' %>;">
+                    <h3 class="text-3xl  my-8">
+                        Question <%= questionIndex + 1 %>: <%= question.questionText %>
+                    </h3>
+                    <ul>
+                        <% question.options[0].forEach((option, optionIndex)=> { %>
+                            <li class="text-2xl my-2 ">
+                                <input type="radio" id="q<%= questionIndex %>_option<%= optionIndex %>"
+                                    name="selectedOptions[<%= questionIndex %>]" value="<%= optionIndex %>">
+                                <label for="q<%= questionIndex %>_option<%= optionIndex %>">
+                                    <%= option %>
+                                </label>
+                            </li>
+                            <% }); %>
+                    </ul>
+                </div>
+                <% }); %>
+                    <button type="button"
+                        class="bg-[#026FDF] px-[20px] text-white my-12 text-2xl rounded-[10px]  py-3 ml-[20px]"
+                        onclick="showPreviousQuestion()">Previous Question</button>
+                    <button type="button" class="bg-[#026FDF] px-[20px] text-white my-12 text-2xl rounded-[10px]  py-3"
+                        onclick="showNextQuestion()">Next Question</button>
+                    <button type="submit" class="bg-[#026FDF] px-[20px] text-white my-12 text-2xl rounded-[10px] py-3"
+                        style="display: none;">Submit Quiz</button>
+        </form>
+    </div>
+    <footer class="bg-[#EBEBEB]  px-12 ">
+        <%- include('partials/footer'); -%>
+    </footer>
+
+    <script>
+        let currentQuestion = 0;
+
+        function showNextQuestion() {
+            const currentQuestionElement = document.getElementById(`question${currentQuestion + 1}`);
+            currentQuestionElement.style.display = 'none';
+
+            currentQuestion++;
+            const nextQuestionElement = document.getElementById(`question${currentQuestion + 1}`);
+            if (nextQuestionElement) {
+                nextQuestionElement.style.display = 'block';
+            } else {
+                // If all questions have been shown, display the submit button
+                document.querySelector('button[type="submit"]').style.display = 'block';
+            }
+        }
+
+        function showPreviousQuestion() {
+            const currentQuestionElement = document.getElementById(`question${currentQuestion + 1}`);
+            currentQuestionElement.style.display = 'none';
+
+            currentQuestion--;
+            const previousQuestionElement = document.getElementById(`question${currentQuestion + 1}`);
+            if (previousQuestionElement) {
+                previousQuestionElement.style.display = 'block';
+            }
+        }
+
+        const baseUrl = 'http://localhost:4000';
+        const submitQuizEndpoint = '/submit-quiz';
+
+        const token = localStorage.getItem('token');
+        const quizResponses = {
+            // Include the quiz responses here...
+        };
+
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        };
+
+        fetch(`${baseUrl}${submitQuizEndpoint}`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(quizResponses),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to submit quiz');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle the response data as needed
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+            });
+
+
+    </script>
+
+</body>
+
+</html>

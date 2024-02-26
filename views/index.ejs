@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>IbQuiz</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,27 +14,27 @@
 
 <body>
 
-    <header class="bg-[#3B3D3F] text-white lg:px-12 sm:px-4">
+    <header class="bg-[#EBEBEB] text-white lg:px-12 sm:px-4">
         <%- include('partials/header'); -%>
     </header>
-    <main class="lg:flex bg-[#010914] lg:flex-row  text-white w-full py-[60px]  lg:px-12 sm:p-4 sm:flex-col-reverse">
-        <div class="hero-content lg:w-1/2 sm:w-full sm:items-center sm:px-[10px]">
-            <h1 class="text-5xl mt-12 font-inter leading-[3rem] font-bold mb-10">Explore the joy
+    <main class="lg:flex bg-white-300 lg:flex-row  text-white w-full  lg:px-12 sm:p-4 sm:flex-col-reverse">
+        <div class="hero-content lg:w-1/2 sm:w-full sm:items-center sm:px-[10px] lg:py-[15px] ">
+            <h1 class="text-5xl mt-10 font-inter leading-[3rem] font-bold mb-8 text-black">Explore the joy
                 <br>of quizzes with ibQuiz!
             </h1>
-            <h3 class="text-2xl mt-[10px]">Answer questions, overcome challenges, and play with friends.
+            <h3 class="text-2xl mt-[10px] text-black ">Answer questions, overcome challenges, and play with friends.
                 Be your own hero in the world of puzzles – start playing now and enjoy
                 the adventure!"</h3>
             <a href="/registration-form"><button
                     class="bg-[#026FDF] px-[20px] text-white my-12 text-2xl rounded-[10px] px-12 py-3"> Register
                     Now </button></a>
         </div>
-        <div class="hero-image lg:w-1/2 sm:w-full">
-            <img src="images/pix1.png" alt="" class="object-cover">
+        <div class="items-left flex justify-end">
+            <img src="images/heroImage.jpg" alt="" class="h-[460px] w-full">
         </div>
 
     </main>
-    <footer class="bg-[#3B3D3F] px-12 ">
+    <footer class="bg-[#EBEBEB] px-12 ">
         <%- include('partials/footer'); -%>
     </footer>
 </body>

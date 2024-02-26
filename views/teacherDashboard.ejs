@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@500&family=Inter:wght@400;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="bg-[#EBEBEB]  text-white lg:px-12 sm:px-4">
+        <%- include('partials/header'); -%>
+    </header>
+    <main class="lg:flex bg-[#010914] text-white mx-center">
+
+        <aside class="bg-white text-black p-4 rounded-xl w-[18%] ml-12 py-12 my-8">
+            <div class="flex justify-center items-center my-15">
+                <img src="images/Frame.svg" alt="frame icon">
+            </div>
+            <div class="flex items-center gap-[10px] my-[15px]">
+                <img src="images/dashboard.svg" alt="tiny icons">
+                <h3 class="text-[#026FDF] text-2xl font-bold">Dashboard</h3>
+            </div>
+
+            <div class=" flex items-center gap-[10px] my-[15px]">
+                <img src="images/pencil.svg" alt="tiny icons">
+                <a href="/create-quiz">
+                    <h4>Create Quiz</h4>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-[10px] my-[15px]">
+                <img src="images/equal-circle.svg" alt="tiny icons">
+                <h4>Results</h4>
+            </div>
+
+            <div class="flex items-center gap-[10px] my-[15px]">
+                <img src="images/annotation.svg" alt="tiny icons">
+                <h4>Leadership Board</h4>
+            </div>
+
+            <div class="flex items-center gap-[10px] my-[15px]">
+                <img src="images/logout.svg" alt="tiny icons">
+                <a href="/">
+                    <h4 class="text-[#026FDF]" id="logoutButton">Logout</h4>
+                </a>
+            </div>
+        </aside>
+        <div class="w-[80%] py-10">
+            <div class="flex justify-between text-white px-10 ">
+                <p class="fulldate">date</p>
+                <div class="text-center mb-5">
+                    <h3>
+                        <%=user.name%>
+                    </h3>
+                    <p>
+                        <%=user.role%>
+                    </p>
+                </div>
+            </div>
+
+            <div class="content flex justify-between bg-white text-black px-10 w-[100%] py-5">
+
+                <div class="flex justify-between items-center w-full">
+                    <div class="w-full">
+                        <h2 class="text-3xl text-[#026FDF]">Welcome back, <span>
+                                <%=user.name%>
+                            </span>!</h2>
+                        <p class="text-2xl">Always stay updated in your student portal</p>
+                    </div>
+                    <div class="items-left">
+                        <img src=" images/Group9.png" alt="school back images" class="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-[#EBEBEB] px-12 ">
+        <%- include('partials/footer'); -%>
+    </footer>
+
+    <script>
+        // const user = JSON.parse(localStorage.getItem('user'))
+
+        // fetch('/student-dashboard', {
+        //     method: 'GET',
+        //     headers: {
+        //         'Authorization': `Bearer ${user.token}` // Assuming 'token' is the JWT token
+        //     }
+        // })
+
+
+        document.getElementById("logoutButton").addEventListener("click", function () {
+            // Send a logout request to the server
+            fetch('/logout', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message); // Alert the message received from the server
+                    // Additional client-side logout actions if needed
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle error appropriately
+                });
+        });
+
+    </script>
+
+    <script src="js/fullDate.js"></script>
+</body>
+
+</html>

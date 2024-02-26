@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <header class="bg-[#3B3D3F] text-white lg:px-12 sm:px-4">
+        <%- include('partials/header'); -%>
+    </header>
+
+    <main class="p-4">
+        <form action="/create-quiz" method="POST">
+            <!-- Quiz Title Input -->
+            <label for="title">Quiz Title:</label>
+            <input type="text" id="title" name="title" required>
+            <br>
+
+            <!-- Questions and Options -->
+            <% for (let i=0; i < 10; i++) { %>
+                <div>
+                    <label for="question<%= i + 1 %>">Question <%= i + 1 %>:</label>
+                    <input type="text" id="question<%= i + 1 %>" name="questions[<%= i %>][questionText]" required>
+                    <br>
+
+                    <!-- Options -->
+                    <% for (let j=0; j < 4; j++) { %>
+                        <label for="option<%= i + 1 %><%= j + 1 %>">Option <%= j + 1 %>:</label>
+                        <input type="text" id="option<%= i + 1 %><%= j + 1 %>"
+                            name="questions[<%= i %>][options][<%= j %>]" required>
+                        <% } %>
+
+                            <!-- Correct Option -->
+                            <label for="correctOption<%= i + 1 %>">Correct Option:</label>
+                            <input type="number" id="correctOption<%= i + 1 %>"
+                                name="questions[<%= i %>][correctOption]" min="0" max="3" required>
+                            <br><br>
+                </div>
+                <% } %>
+
+                    <br>
+                    <input type="submit" value="Create Quiz">
+        </form>
+
+    </main>
+
+    <footer class="bg-[#3B3D3F] px-12 ">
+        <%- include('partials/footer'); -%>
+    </footer>
+</body>
+
+</html>
