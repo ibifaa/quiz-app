@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const {authenticateUser} = require('./middlewares/userAuth');
 const homeRoute = require('./routes/homeRoute');
 const studentRoutes = require('./routes/studentRoutes');
+const teacherRoutes = require('./routes/teacherRoutes');
 
 
 const {connectDb} = require('./database/db');
@@ -42,6 +43,7 @@ app.use(express.static("public"));
 // ROUTES MIDDLEWARES
 app.use(homeRoute);
 app.use(studentRoutes);
+app.use(teacherRoutes);
 
 
 

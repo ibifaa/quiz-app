@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <header class="bg-[#3B3D3F] text-white lg:px-12 sm:px-4">
+    <header class="bg-[#EBEBEB] text-white lg:px-12 sm:px-4">
         <%- include('partials/header'); -%>
     </header>
 
@@ -17,38 +17,41 @@
         <form action="/create-quiz" method="POST">
             <!-- Quiz Title Input -->
             <label for="title">Quiz Title:</label>
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="title" name="title" required placeholder="enter name of Quiz" class="mb-5">
             <br>
 
             <!-- Questions and Options -->
             <% for (let i=0; i < 10; i++) { %>
                 <div>
                     <label for="question<%= i + 1 %>">Question <%= i + 1 %>:</label>
-                    <input type="text" id="question<%= i + 1 %>" name="questions[<%= i %>][questionText]" required>
+                    <input type="text" id="question<%= i + 1 %>" name="questions[<%= i %>][questionText]" required
+                        placeholder="Enter your question here">
                     <br>
 
                     <!-- Options -->
                     <% for (let j=0; j < 4; j++) { %>
                         <label for="option<%= i + 1 %><%= j + 1 %>">Option <%= j + 1 %>:</label>
                         <input type="text" id="option<%= i + 1 %><%= j + 1 %>"
-                            name="questions[<%= i %>][options][<%= j %>]" required>
+                            name="questions[<%= i %>][options][<%= j %>]" required placeholder="option">
                         <% } %>
 
                             <!-- Correct Option -->
                             <label for="correctOption<%= i + 1 %>">Correct Option:</label>
                             <input type="number" id="correctOption<%= i + 1 %>"
-                                name="questions[<%= i %>][correctOption]" min="0" max="3" required>
+                                name="questions[<%= i %>][correctOption]" min="10" required placeholder="correct ans">
                             <br><br>
                 </div>
                 <% } %>
 
                     <br>
-                    <input type="submit" value="Create Quiz">
+                    <input type="submit"
+                        class="bg-[#026FDF] px-[20px] text-white my-3 text-2xl rounded-[10px] px-12 py-[5px] text-center items-center"
+                        value="Create Quiz">
         </form>
 
     </main>
 
-    <footer class="bg-[#3B3D3F] px-12 ">
+    <footer class="bg-[#EBEBEB] px-12 ">
         <%- include('partials/footer'); -%>
     </footer>
 </body>

@@ -4,6 +4,9 @@ const ResultModel =require('../models/resultModel')
 const jwt = require('jsonwebtoken');
 
 
+const secretKey = process.env.SECRET_KEY;
+
+
 
 const getTeacherDashboard = async (req, res) =>{
     try {
@@ -17,8 +20,7 @@ const getTeacherDashboard = async (req, res) =>{
             user = await UserModel.findById(userId);
         }
 
-        const quizzes = await QuizModel.find();
-        res.render('teacherDashboard', { quizzes, user });
+        res.render('teacherDashboard', { user });
     } catch (error) {
         console.log(error);
         res.status(500).send('Internal Server Error');

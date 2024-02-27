@@ -58,15 +58,13 @@ const loginRequest = async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await UserModel.findOne({ username });
-        
-                
+
         if (user) {
             const passwordMatch = await bcrypt.compare(password, user.password);
             if (passwordMatch) {
-                await jwt.sign({ userId: user._id, name: user.name, username:user.username}, `${secretKey}`, { expiresIn: '1h' },
+                await jwt.sign({ userId: user._id, name: user.name, username:user.username, role:user.role}, `${secretKey}`, { expiresIn: '1h' },
                 async(err, token)=> {
-                    console.log(" The token is "+token)
-                    
+
                     if(token) {
                         res.cookie("userToken", token);
                         res.status(200).json({
@@ -110,9 +108,6 @@ const logout = (req, res) => {
 };
 
 
-
-
-
 const getStudentDashboard = async(req, res) =>{
     try {
         const userToken = req.cookies.userToken;
@@ -134,8 +129,6 @@ const getStudentDashboard = async(req, res) =>{
 }
 
 
-
-
     const getQuizQuestions = async (req, res) => {
         try {
           const quiz = await QuizModel.findById(req.params.id);
@@ -147,11 +140,26 @@ const getStudentDashboard = async(req, res) =>{
       };
     
 
+// const  getSingleQuiz =  async (req, res)=>{
+//     try {
+//         const {id} = req.params;
+//         console.log(id);
+//         const quizId = await QuizModel.findById(id);
+//         // let quizId =  quizzes._id;
+//         res.status(200).render('singleQuiz', {quizzes, quizId});
+//     } 
+//     catch (error) {
+//         console.log(error.message)
+//     }
+// }
+
 const  getSingleQuiz =  async (req, res)=>{
     try {
         const {id} = req.params;
+        console.log(id);
         const quizzes = await QuizModel.findById(id);
-        res.status(200).render('singleQuiz', {quizzes, quizId:id});
+        let quizId = quizzes._id;
+        res.status(200).render('singleQuiz', {quizzes});
     } 
     catch (error) {
         console.log(error.message)
@@ -162,46 +170,65 @@ const  getSingleQuiz =  async (req, res)=>{
 
 const submitQuiz = async (req, res) => {
     try {
+        const selectedOptions = req.body;
+        
         const userToken = req.cookies.userToken;
         let totalScore = 0;
+        
+        let user;
+        let quizzes;
+        let score = 0;
+        let userId
       
         if (userToken) {
             const decodedToken = jwt.verify(userToken, `${secretKey}`);
-            const userId = decodedToken.userId;
-            let user = await UserModel.findById(userId);
+            userId = decodedToken.userId;
+            const {id} =req.params
 
-            // Assuming quizId is available in req.params
-            const { quizId } = req.params;
 
-            // Retrieve the specific quiz using the ID
-            const quiz = await QuizModel.findById(quizId);
+            user = await UserModel.findById(userId);
+            quizzes = await QuizModel.findById(id);
+        
 
-            // Check if the quiz exists
-            if (!quiz) {
-                return res.status(404).send('Quiz not found');
-            }
+     
+   
 
-            // Calculate score for the quiz
-            let score = 0;
-            quiz.questions.forEach((question, index) => {
-                const selectedOptionIndex = parseInt(selectedOptions[index], 10);
-                const correctOptionIndex = question.correctOption;
-                   
-                if (selectedOptionIndex === correctOptionIndex) {
-                    score++;
-                }
-            });
+    // Loop through each question in the quiz
+    for (let i=0; i<quizzes.questions.length; i++) {
+        const selectedOptionIndex = parseInt(selectedOptions[i], 10);
+        const correctOptionIndex = quizzes.questions[i].correctOption;
 
-            // Update the total score
-            totalScore = score;
+        if (selectedOptionIndex === correctOptionIndex) {
 
-            // Store quiz name and score in Results array
-            user.Results.push({ quizName: quiz.name, score: score });
-
-            // Render the dashboard with the total score
-            return res.render('/student-dashboard', { totalScore });
+            score++;
         }
-    } catch (error) {
+
+    }
+    }
+
+    console.log(score);
+
+    // Update the user's scores for each quiz
+    await UserModel.findByIdAndUpdate(
+                        userId,
+                                {
+                                    $push: {
+                                        Results: {
+                                            quizId: quizzes.name,
+                                            score: score,
+                                        },
+                                    },
+                                },
+                                { new: true }
+                            );
+
+                            // Accumulate the score for all quizzes
+                            totalScore += score;
+        
+            // Render the dashboard with the total score
+            return res.status(200).redirect('/student-dashboard');
+        }
+     catch (error) {
         console.error(error.message);
         return res.status(500).send('Internal Server Error');
     }

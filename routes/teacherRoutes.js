@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const {authorizeTeacher} = require('../middlewares/teacherAuth');
+const {authenticateUser} = require('../middlewares/userAuth');
 
 
 const {
